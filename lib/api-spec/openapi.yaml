@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: AyurvedicZen API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: diagnosis
+    description: Ayurvedic diagnosis operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,89 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /submit-answers:
+    post:
+      operationId: submitAnswers
+      tags: [diagnosis]
+      summary: Submit questionnaire answers
+      description: Receives user answers, analyzes them, and returns the Ayurvedic diagnosis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitAnswersBody"
+      responses:
+        "201":
+          description: Diagnosis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosisResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /responses:
+    get:
+      operationId: getResponses
+      tags: [diagnosis]
+      summary: Get all past responses
+      description: Returns all stored user responses and their diagnoses
+      responses:
+        "200":
+          description: List of past responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StoredResponse"
+
+  /responses/{id}:
+    get:
+      operationId: getResponse
+      tags: [diagnosis]
+      summary: Get a specific response
+      description: Returns a single response by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: The response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoredResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /stats:
+    get:
+      operationId: getDiagnosisStats
+      tags: [diagnosis]
+      summary: Get diagnosis statistics
+      description: Returns counts of each dosha type diagnosed
+      responses:
+        "200":
+          description: Diagnosis statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosisStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +119,98 @@ components:
       required:
         - status
 
+    SubmitAnswersBody:
+      type: object
+      properties:
+        answers:
+          type: object
+          description: Map of question ID to selected answer value (a, b, or c)
+          additionalProperties:
+            type: string
+      required:
+        - answers
+
+    DiagnosisResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        result:
+          type: string
+          enum: [Vata, Pitta, Kapha]
+        vataScore:
+          type: integer
+        pittaScore:
+          type: integer
+        kaphaScore:
+          type: integer
+        description:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - result
+        - vataScore
+        - pittaScore
+        - kaphaScore
+        - description
+        - recommendations
+        - createdAt
+
+    StoredResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        answers:
+          type: object
+          additionalProperties:
+            type: string
+        result:
+          type: string
+        vataScore:
+          type: integer
+        pittaScore:
+          type: integer
+        kaphaScore:
+          type: integer
+        createdAt:
+          type: string
+      required:
+        - id
+        - answers
+        - result
+        - vataScore
+        - pittaScore
+        - kaphaScore
+        - createdAt
+
+    DiagnosisStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        vataCount:
+          type: integer
+        pittaCount:
+          type: integer
+        kaphaCount:
+          type: integer
+      required:
+        - total
+        - vataCount
+        - pittaCount
+        - kaphaCount
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

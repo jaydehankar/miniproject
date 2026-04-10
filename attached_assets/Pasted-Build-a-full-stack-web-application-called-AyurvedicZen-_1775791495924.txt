@@ -1,0 +1,81 @@
+Build a full-stack web application called **"AyurvedicZen" – Ayurvedic Diagnostic System**.
+
+Tech Stack:
+
+* Frontend: React (with functional components and hooks), HTML, CSS, JavaScript
+* Backend: Node.js with Express.js
+* Database: MySQL
+* Version Control: Git (push code to my GitHub repository)
+
+GitHub Repository:
+https://github.com/jaydehankar/miniproject.git
+
+Project Requirements:
+
+1. FRONTEND:
+
+* Create a clean, responsive UI using React.
+* Home page with introduction to AyurvedicZen and Ayurveda diagnosis.
+* A questionnaire page that asks 10–15 Ayurvedic diagnostic questions (like body type, digestion, sleep, skin, etc.).
+* Use radio buttons or dropdowns for answers.
+* Submit button to send responses to backend.
+* Result page to display predicted Ayurvedic problem (like Vata, Pitta, Kapha imbalance).
+* Use proper component structure (Navbar, Questions, Result, etc.).
+* Show "AyurvedicZen" branding in header and title.
+
+2. BACKEND:
+
+* Use Node.js with Express.
+* Create REST APIs:
+
+  * POST /submit-answers → receives user answers
+  * GET /result → returns predicted Ayurvedic diagnosis
+* Implement logic to analyze answers and classify into:
+
+  * Vata imbalance
+  * Pitta imbalance
+  * Kapha imbalance
+* Use simple scoring algorithm (assign weights to answers).
+
+3. DATABASE (MySQL):
+
+* Create database: ayurveda_db
+* Table: users_responses
+  Columns:
+  id (primary key)
+  answers (JSON or text)
+  result (varchar)
+  created_at (timestamp)
+* Store each user’s responses and result.
+
+4. INTEGRATION:
+
+* Connect React frontend with backend using fetch/axios.
+* Backend should connect with MySQL using mysql2 or sequelize.
+
+5. GIT & DEPLOYMENT:
+
+* Initialize Git in the project.
+* Push complete project to the given GitHub repository.
+* Maintain proper folder structure:
+  /frontend (React app)
+  /backend (Node + Express)
+* Use clear commit messages.
+
+6. EXTRA FEATURES (optional but preferred):
+
+* Add loading animation while processing result.
+* Add basic validation (all questions must be answered).
+* Add simple dashboard page to view past responses.
+
+7. CODE QUALITY:
+
+* Write clean, modular, well-commented code.
+* Use environment variables for DB connection.
+* Include README.md with setup instructions.
+
+After building:
+
+* Run the project successfully.
+* Ensure frontend and backend both work.
+* Push all code to the GitHub repository.

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "AyurvedicZen"
+version = "1.0.0"
+id = "artifacts/ayurvediczen"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19650
+
+[services.development]
+run = "pnpm --filter @workspace/ayurvediczen run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ayurvediczen", "run", "build" ]
+publicDir = "artifacts/ayurvediczen/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19650"
+BASE_PATH = "/"

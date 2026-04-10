@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "AeUyUkgKtOkb_fmXU18Dz"
+uri = "file://artifacts/ayurvediczen/src/assets/images/hero.jpg"
+type = "image"
+title = "serene ayurvedic wellness setup, natural light, earthy tones, calm, herbal, spa"
